@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ww.dao.AssetMapper">
+  <resultMap id="AssetMap" type="model.Asset">
+    <id property="id" column="id"/>
+    <result property="sname" column="sname"/>
+    <result property="name" column="name"/>
+    <result property="name_en" column="name_en"/>
+    <result property="circulation" column="circulation"/>
+    <result property="issueAddress" column="issueAddress"/>
+    <result property="issueTime" column="issueTime"/>
+    <result property="status" column="status"/>
+    <result property="imageUrl" column="imageUrl"/>
+    <result property="produtIntroUrl" column="produtIntroUrl"/>
+    <result property="issueDatum" column="issueDatum"/>
+    <result property="title" column="title"/>
+    <result property="content" column="content"/>
+  </resultMap>
+  <select id="getById" parameterType="java.lang.Integer" resultType="model.Asset" resultMap="AssetMap">select m.* from t_asset m where m.id=#{value}</select>
+  <select id="getBySname" parameterType="java.lang.String" resultType="model.Asset" resultMap="AssetMap">select m.* from t_asset m where m.sname=#{value}</select>
+  <select id="getByName" parameterType="java.lang.String" resultType="model.Asset" resultMap="AssetMap">select m.* from t_asset m where m.name=#{value}</select>
+  <select id="getByName_en" parameterType="java.lang.String" resultType="model.Asset" resultMap="AssetMap">select m.* from t_asset m where m.name_en=#{value}</select>
+  <select id="getByCirculation" parameterType="java.lang.Long" resultType="model.Asset" resultMap="AssetMap">select m.* from t_asset m where m.circulation=#{value}</select>
+  <select id="getByIssueAddress" parameterType="java.lang.String" resultType="model.Asset" resultMap="AssetMap">select m.* from t_asset m where m.issueAddress=#{value}</select>
+  <select id="getByIssueTime" parameterType="java.util.Date" resultType="model.Asset" resultMap="AssetMap">select m.* from t_asset m where m.issueTime=#{value}</select>
+  <select id="getByStatus" parameterType="java.lang.Integer" resultType="model.Asset" resultMap="AssetMap">select m.* from t_asset m where m.status=#{value}</select>
+  <select id="getByImageUrl" parameterType="java.lang.String" resultType="model.Asset" resultMap="AssetMap">select m.* from t_asset m where m.imageUrl=#{value}</select>
+  <select id="getByProdutIntroUrl" parameterType="java.lang.String" resultType="model.Asset" resultMap="AssetMap">select m.* from t_asset m where m.produtIntroUrl=#{value}</select>
+  <select id="getByIssueDatum" parameterType="java.lang.String" resultType="model.Asset" resultMap="AssetMap">select m.* from t_asset m where m.issueDatum=#{value}</select>
+  <select id="getByTitle" parameterType="java.lang.String" resultType="model.Asset" resultMap="AssetMap">select m.* from t_asset m where m.title=#{value}</select>
+  <select id="getByContent" parameterType="java.lang.String" resultType="model.Asset" resultMap="AssetMap">select m.* from t_asset m where m.content=#{value}</select>
+  <select id="getAll" resultType="model.Asset" resultMap="AssetMap">select m.* from t_asset m</select>
+  <select id="getList" parameterType="String" resultType="model.Asset" resultMap="AssetMap">select m.* from t_asset m ${value}</select>
+  <select id="getList2" resultType="model.Asset" resultMap="AssetMap">select m.* from t_asset m where ${param1} order by ${param2} limit ${param3},${param4}</select>
+  <select id="getList3" resultType="model.Asset" resultMap="AssetMap">select m.* from t_asset m where ${param1} limit ${param2},${param3}</select>
+  <select id="getList4" resultType="model.Asset" resultMap="AssetMap">select m.* from t_asset m order by ${param1} limit ${param2},${param3}</select>
+  <select id="selectSql" parameterType="String" resultType="ww.common.SqlMap">${value}</select>
+  <select id="getCount" parameterType="String" resultType="int">select count(*) from t_asset m ${value}</select>
+  <insert id="insert" parameterType="model.Asset" keyProperty="id" useGeneratedKeys="true">insert into t_asset(sname,name,name_en,circulation,issueAddress,issueTime,status,imageUrl,produtIntroUrl,issueDatum,title,content) values(#{sname},#{name},#{name_en},#{circulation},#{issueAddress},#{issueTime},#{status},#{imageUrl},#{produtIntroUrl},#{issueDatum},#{title},#{content})</insert>
+  <update id="update" parameterType="model.Asset" keyProperty="id" useGeneratedKeys="true">update t_asset set sname=#{sname},name=#{name},name_en=#{name_en},circulation=#{circulation},issueAddress=#{issueAddress},issueTime=#{issueTime},status=#{status},imageUrl=#{imageUrl},produtIntroUrl=#{produtIntroUrl},issueDatum=#{issueDatum},title=#{title},content=#{content} where id=#{id}</update>
+  <delete id="delete" parameterType="java.lang.Integer">delete from t_asset where id=#{value}</delete>
+  <delete id="deleteWhere" parameterType="String">delete from t_asset ${value}</delete>
+</mapper>

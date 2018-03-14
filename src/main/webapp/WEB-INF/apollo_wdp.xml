@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<wwconfig> 
+  <datasource> 
+    <property name="driverClassName" value="com.mysql.jdbc.Driver"/>  
+    <property name="url" value="jdbc:mysql://localhost:3306/wdp_data"/>  
+    <property name="username" value="root"/>  
+    <property name="password" value=""/> 
+  </datasource>  
+  <AppPath>E:/wwfile/workspace/WDP</AppPath>  
+  <TableName>s_admin</TableName>  
+  <Sql></Sql>  
+  <KeyName>id</KeyName>  
+  <GeneratedKeys>true</GeneratedKeys>  
+  <EntityType>AdminQuery</EntityType>  
+  <EntityPackage>model</EntityPackage>  
+  <InterfacePackage>ww.dao</InterfacePackage>  
+  <ServerPackage>ww.server</ServerPackage>  
+  <ControllerPackage>ww.controler</ControllerPackage>  
+  <ViewSubPath>admin</ViewSubPath>  
+  <ParentSubUrl></ParentSubUrl>  
+  <MakeEntity>true</MakeEntity>  
+  <MakeInterface>true</MakeInterface>  
+  <MakeServer>true</MakeServer>  
+  <MakeController>true</MakeController>  
+  <MakeEditView>true</MakeEditView>  
+  <MakeListView>true</MakeListView>  
+  <LinkMaping></LinkMaping> 
+</wwconfig>

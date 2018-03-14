@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"	
+	xmlns:context="http://www.springframework.org/schema/context"  
+    xmlns:aop="http://www.springframework.org/schema/aop" 
+    xmlns:tx="http://www.springframework.org/schema/tx"  
+    xmlns:ehcache="http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring"
+    xsi:schemaLocation="  
+         http://www.springframework.org/schema/beans  
+         http://www.springframework.org/schema/beans/spring-beans-4.1.xsd  
+         http://www.springframework.org/schema/context  
+         http://www.springframework.org/schema/context/spring-context-4.1.xsd  
+         http://www.springframework.org/schema/aop    
+         http://www.springframework.org/schema/aop/spring-aop-4.1.xsd    
+         http://www.springframework.org/schema/tx    
+         http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+         http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring
+         http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring/ehcache-spring-1.2.xsd"> 
+	
+	<!-- 开启bean注解处理器 -->  
+    <context:annotation-config />   
+    
+    <!-- 扫描bean注解 --> 
+    <context:component-scan base-package="ww" />
+    
+    <!--  开启切面代理 使得spring认识 @Aspect 
+	<aop:aspectj-autoproxy/>  -->
+    
+	<!-- 配置DataSource数据源 --> 
+	<!-- <property name="url" value="jdbc:mysql://localhost:3306/wdp_data"></property> -->
+	<!--  <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://localhost:3307/reits_data?useUnicode=true&amp;characterEncoding=UTF-8"></property> 
+		<property name="username" value="root"></property>
+		<property name="password" value="" />		
+	</bean>  --> 
+	
+	<!-- 配置DataSource数据源 -->  
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">  
+       <property name="driverClassName" value="com.mysql.jdbc.Driver"/>  
+       <property name="url" value="jdbc:mysql://57fb0ec63be3a.bj.cdb.myqcloud.com:16049/reits_data?useUnicode=true&amp;characterEncoding=UTF-8"/>  
+       <property name="username" value="cdb_outerroot"/>  
+       <property name="password" value="reitssql1qaz@WSX"/> 
+    </bean>
+    
+    <!-- mybatis支持 -->
+    <!-- 配置SqlSessionFactoryBean --> 
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> 
+       <property name="dataSource" ref="dataSource"/>
+       <property name="configLocation" value="classpath:mybatis.xml"/>
+       <property name="mapperLocations">
+            <list>
+            	<!-- 自动扫描引入mapper映射配置文件，注意：不能和mybatis.xml中的手工引入mapper映射配置文件同时使用！ -->
+                <value>classpath*:model/**/*Mapper.xml</value>
+            </list>
+        </property>
+    </bean>
+    
+    <!-- mybatis 自动扫描mapper接口，自动扫描模式，扫描目录在ww/dao目录下 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">  
+	   <property name="annotationClass" value="org.springframework.stereotype.Repository"/>  
+	   <property name="basePackage" value="ww.dao"/>  
+	   <property name="sqlSessionFactory" ref="sqlSessionFactory"/>  
+	</bean>
+	
+	<!-- JdbcTemplate支持 -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate" abstract="false"
+        lazy-init="false" autowire="default">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>	
+    <bean id="namedJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate" abstract="false"
+        autowire="default">
+        <constructor-arg ref="dataSource"></constructor-arg>
+    </bean>	
+  
+    <!-- 配置事务管理 -->  
+    <bean name="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">     
+    	<property name="dataSource" ref="dataSource"></property>
+    </bean>
+    
+    <!-- 使用注解方式实现spring事务管理（aop方式）,注解和非注解不能混合使用. -->
+    <tx:annotation-driven transaction-manager="txManager" proxy-target-class="true"/>
+    
+    <!-- ww 在代码获取bean -->  
+    <bean class="ww.common.WwSpringContextHelper">
+    </bean>
+    
+    <!-- 注册redis.properies文件 --> 
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" >
+    	<property name="locations"  value="classpath:redis.properties">
+    	</property>
+    </bean>
+       
+    <!-- redis -->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="${redis.maxIdle}"></property> 
+  		<property name="minEvictableIdleTimeMillis" value="${redis.minEvictableIdleTimeMillis}"></property> 
+  		<property name="numTestsPerEvictionRun" value="${redis.numTestsPerEvictionRun}"></property> 
+  		<property name="timeBetweenEvictionRunsMillis" value="${redis.timeBetweenEvictionRunsMillis}"></property>
+    </bean>
+    <bean id="jeditConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" destroy-method="destroy">
+    	<property name="poolConfig" ref="jedisPoolConfig"></property> 
+	  	<property name="hostName" value="${redis.hostName}"></property> 
+	  	<property name="port" value="${redis.port}"></property> 
+	  	<property name="timeout" value="${redis.timeout}"></property> 
+	  	<property name="usePool" value="${redis.usePool}"></property> 
+	</bean>
+	<bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">  
+        <property name="connectionFactory"   ref="jeditConnectionFactory" />  
+    </bean>
+    <bean id="stringSerializer" class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+    <!-- 定义RedisTemplate  并开启redis事务，可以通过transcational注解控制 -->
+    <!-- <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="jeditConnectionFactory" />
+        <property name="keySerializer" ref="stringSerializer" />
+        <property name="enableTransactionSupport" value="true" />
+    </bean> -->
+    <!-- end redis -->
+    
+    <!-- begin ehcache 缓存 -->
+    <bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation" value="classpath:ehcache.xml" />
+	</bean>
+    <ehcache:annotation-driven cache-manager="ehCacheManager" />
+    <!-- end ehcache -->
+    
+    <!-- begin wwsecurity -->
+    <bean id="configRule" class="ww.security.ConfigRule">
+    	<property name="ruleItems">
+    		<list>
+    			<value>/login/**=anon</value> 
+    			<value>/admin=login</value>
+    			 <value>/admin/*=login</value>
+    			<value>/admin/**=authc</value>
+    		</list>
+    	</property>
+    </bean>
+    <bean id="dataRealm" class="ww.security.DataRealm"></bean>
+    <bean id="adminlogineven" class="ww.authen.AdminLoginEvent"/>  
+    <bean id="wwsecurityManager" class="ww.security.SecurityManager">
+    	<property name="configRule" ref="configRule"/>
+    	<property name="dataRealm" ref="dataRealm"></property>
+    	<property name="loginUrl" value="/login/AdminLogin/login"/>
+    	<property name="loginSuccessUrl" value="/admin/index"/>
+    	<property name="unauthcUrl" value="/login/AdminLogin/unauthorized"/>
+    	<property name="encryptPassword" value="true"/>
+    	<property name="loginEvent" ref="adminlogineven" />
+    	<property name="useCook" value="false"/>
+    </bean>
+    <bean id="wwsecurity" class="ww.security.WwSecurityFilterBean">
+    	<property name="filterName" value="adminfilter"></property>
+    	<property name="securityManager" ref="wwsecurityManager" />
+    </bean>    
+    <!-- end wwsecurity -->
+  
+    <!-- 使用非注解方式实现spring事务管理 （aop方式）,注解和非注解不能混合使用.
+    <tx:advice id="txAdvice" transaction-manager="txManager">
+      <tx:attributes>
+        <tx:method name="delete*" propagation="REQUIRED" read-only="false" 
+                              rollback-for="java.lang.Exception" no-rollback-for="java.lang.RuntimeException"/>
+        <tx:method name="insert*" propagation="REQUIRED" read-only="false" 
+                              rollback-for="java.lang.RuntimeException" />
+        <tx:method name="update*" propagation="REQUIRED" read-only="false" 
+                              rollback-for="java.lang.Exception" />
+        
+        <tx:method name="find*" propagation="SUPPORTS"/>
+        <tx:method name="get*" propagation="SUPPORTS"/>
+        <tx:method name="select*" propagation="SUPPORTS"/>
+      </tx:attributes>
+    </tx:advice> -->    
+       
+    <!-- 配置事务异常封装 -->
+    <!-- <bean id="persistenceExceptionTranslationPostProcessor" 
+       class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" /> -->	
+	
+</beans>

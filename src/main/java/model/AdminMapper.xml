@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ww.dao.AdminMapper">
+  <resultMap id="AdminMap" type="model.Admin">
+    <id property="fid" column="fid"/>
+    <result property="fnumber" column="fnumber"/>
+    <result property="fname" column="fname"/>
+    <result property="fpassword" column="fpassword"/>
+    <result property="flevel" column="flevel"/>
+    <result property="fcreatetime" column="fcreatetime"/>
+    <result property="fnote" column="fnote"/>
+    <result property="fclose" column="fclose"/>
+    <result property="phoneNum" column="phoneNum"/>
+    <result property="okPassword" column="okPassword"/>
+  </resultMap>
+  <update id="updatePwd" parameterType="model.Admin">
+	update w_admin 
+	set fpassword=#{fpassword} 
+	where fname=#{fname}
+  </update>
+  <update id="updateOkPwd" parameterType="model.Admin">
+	update w_admin 
+	set okPassword=#{okPassword} 
+	where phoneNum=#{phoneNum}
+  </update>
+  <select id="getById" parameterType="java.lang.Integer" resultType="model.Admin" resultMap="AdminMap">select m.* from w_admin m where m.fid=#{value}</select>
+  <select id="getByFid" parameterType="java.lang.Integer" resultType="model.Admin" resultMap="AdminMap">select m.* from w_admin m where m.fid=#{value}</select>
+  <select id="getByFnumber" parameterType="java.lang.String" resultType="model.Admin" resultMap="AdminMap">select m.* from w_admin m where m.fnumber=#{value}</select>
+  <select id="getByFname" parameterType="java.lang.String" resultType="model.Admin" resultMap="AdminMap">select m.* from w_admin m where m.fname=#{value}</select>
+  <select id="getByFpassword" parameterType="java.lang.String" resultType="model.Admin" resultMap="AdminMap">select m.* from w_admin m where m.fpassword=#{value}</select>
+  <select id="getByFlevel" parameterType="java.lang.String" resultType="model.Admin" resultMap="AdminMap">select m.* from w_admin m where m.flevel=#{value}</select>
+  <select id="getByFcreatetime" parameterType="java.util.Date" resultType="model.Admin" resultMap="AdminMap">select m.* from w_admin m where m.fcreatetime=#{value}</select>
+  <select id="getByFnote" parameterType="java.lang.String" resultType="model.Admin" resultMap="AdminMap">select m.* from w_admin m where m.fnote=#{value}</select>
+  <select id="getByFclose" parameterType="java.lang.Boolean" resultType="model.Admin" resultMap="AdminMap">select m.* from w_admin m where m.fclose=#{value}</select>
+  <select id="getAll" resultType="model.Admin" resultMap="AdminMap">select m.* from w_admin m</select>
+  <select id="getList" parameterType="String" resultType="model.Admin" resultMap="AdminMap">select m.* from w_admin m ${value}</select>
+  <select id="getList2" resultType="model.Admin" resultMap="AdminMap">select m.* from w_admin m where ${param1} order by ${param2} limit ${param3},${param4}</select>
+  <select id="selectSql" parameterType="String" resultType="ww.common.SqlMap">${value}</select>
+  <select id="getCount" parameterType="String" resultType="int">select count(*) from w_admin m ${value}</select>
+  <insert id="insert" parameterType="model.Admin" keyProperty="fid" useGeneratedKeys="true">insert into w_admin(fnumber,fname,fpassword,flevel,fcreatetime,fnote,fclose) values(#{fnumber},#{fname},#{fpassword},#{flevel},#{fcreatetime},#{fnote},#{fclose})</insert>
+  <update id="update" parameterType="model.Admin" keyProperty="fid" useGeneratedKeys="true">update w_admin set fnumber=#{fnumber},fname=#{fname},fpassword=#{fpassword},flevel=#{flevel},fcreatetime=#{fcreatetime},fnote=#{fnote},fclose=#{fclose} where fid=#{fid}</update>
+  <delete id="delete" parameterType="java.lang.Integer">delete from w_admin where fid=#{value}</delete>
+  <delete id="deleteWhere" parameterType="String">delete from w_admin ${value}</delete>
+</mapper>

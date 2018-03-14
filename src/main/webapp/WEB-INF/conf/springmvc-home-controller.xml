@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd"
+        >
+    <!-- 非注解（配置）方式MVC  -->
+   
+	<!--配置controller,handlerMapping-->	
+    <!--使用默认的映射处理器来映射 controller -->
+	<!-- <bean class="ww.controller.home.HomeController" name="/"> -->
+		<!-- 不设置默认使用InternalPathMethodNameResolver来解析功能处理方法名 --> 
+		<!-- 使用PropertiesMethodNameResolver来解析功能处理方法名 -->         
+		<!--<property name="methodNameResolver" ref="propertiesMethodNameResolver"/>-->		
+	<!-- </bean> -->
+ 
+	
+</beans>

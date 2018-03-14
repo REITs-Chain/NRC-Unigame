@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ww.dao.RawassetMapper">
+  <resultMap id="RawassetMap" type="model.Rawasset">
+    <id property="id" column="id"/>
+    <result property="idNum" column="idNum"/>
+    <result property="asset" column="asset"/>
+  </resultMap>
+  <select id="getById" parameterType="java.lang.Integer" resultType="model.Rawasset" resultMap="RawassetMap">select m.* from t_rawasset m where m.id=#{value}</select>
+  <select id="getByIdNum" parameterType="java.lang.String" resultType="model.Rawasset" resultMap="RawassetMap">select m.* from t_rawasset m where m.idNum=#{value}</select>
+  <select id="getByAsset" parameterType="java.lang.Double" resultType="model.Rawasset" resultMap="RawassetMap">select m.* from t_rawasset m where m.asset=#{value}</select>
+  <select id="getAll" resultType="model.Rawasset" resultMap="RawassetMap">select m.* from t_rawasset m</select>
+  <select id="getList" parameterType="String" resultType="model.Rawasset" resultMap="RawassetMap">select m.* from t_rawasset m ${value}</select>
+  <select id="getList2" resultType="model.Rawasset" resultMap="RawassetMap">select m.* from t_rawasset m where ${param1} order by ${param2} limit ${param3},${param4}</select>
+  <select id="selectSql" parameterType="String" resultType="ww.common.SqlMap">${value}</select>
+  <select id="getCount" parameterType="String" resultType="int">select count(*) from t_rawasset m ${value}</select>
+  <insert id="insert" parameterType="model.Rawasset" keyProperty="id" useGeneratedKeys="true">insert into t_rawasset(idNum,asset) values(#{idNum},#{asset})</insert>
+  <update id="update" parameterType="model.Rawasset" keyProperty="id" useGeneratedKeys="true">update t_rawasset set idNum=#{idNum},asset=#{asset} where id=#{id}</update>
+  <delete id="delete" parameterType="java.lang.Integer">delete from t_rawasset where id=#{value}</delete>
+  <delete id="deleteWhere" parameterType="String">delete from t_rawasset ${value}</delete>
+</mapper>

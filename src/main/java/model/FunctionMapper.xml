@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ww.dao.FunctionMapper">
+  <resultMap id="FunctionMap" type="model.Function">
+    <id property="fid" column="fid"/>
+    <result property="fnumber" column="fnumber"/>
+    <result property="fname" column="fname"/>
+    <result property="fparentId" column="fparentId"/>
+    <result property="flevel" column="flevel"/>
+    <result property="fisGroup" column="fisGroup"/>
+    <result property="findex" column="findex"/>
+    <result property="furl" column="furl"/>
+    <result property="ficon" column="ficon"/>
+    <result property="fvisible" column="fvisible"/>
+  </resultMap>
+  <select id="getById" parameterType="java.lang.Integer" resultType="model.Function" resultMap="FunctionMap">select m.* from w_function m where m.fid=#{value}</select>
+  <select id="getByFid" parameterType="java.lang.Integer" resultType="model.Function" resultMap="FunctionMap">select m.* from w_function m where m.fid=#{value}</select>
+  <select id="getByFnumber" parameterType="java.lang.String" resultType="model.Function" resultMap="FunctionMap">select m.* from w_function m where m.fnumber=#{value}</select>
+  <select id="getByFname" parameterType="java.lang.String" resultType="model.Function" resultMap="FunctionMap">select m.* from w_function m where m.fname=#{value}</select>
+  <select id="getByFparentId" parameterType="java.lang.Integer" resultType="model.Function" resultMap="FunctionMap">select m.* from w_function m where m.fparentId=#{value}</select>
+  <select id="getByFlevel" parameterType="java.lang.Integer" resultType="model.Function" resultMap="FunctionMap">select m.* from w_function m where m.flevel=#{value}</select>
+  <select id="getByFisGroup" parameterType="java.lang.Boolean" resultType="model.Function" resultMap="FunctionMap">select m.* from w_function m where m.fisGroup=#{value}</select>
+  <select id="getByFindex" parameterType="java.lang.Integer" resultType="model.Function" resultMap="FunctionMap">select m.* from w_function m where m.findex=#{value}</select>
+  <select id="getByFurl" parameterType="java.lang.String" resultType="model.Function" resultMap="FunctionMap">select m.* from w_function m where m.furl=#{value}</select>
+  <select id="getByFicon" parameterType="java.lang.String" resultType="model.Function" resultMap="FunctionMap">select m.* from w_function m where m.ficon=#{value}</select>
+  <select id="getByFvisible" parameterType="java.lang.Boolean" resultType="model.Function" resultMap="FunctionMap">select m.* from w_function m where m.fvisible=#{value}</select>
+  <select id="getAll" resultType="model.Function" resultMap="FunctionMap">select m.* from w_function m</select>
+  <select id="getList" parameterType="String" resultType="model.Function" resultMap="FunctionMap">select m.* from w_function m ${value}</select>
+  <select id="getList2" resultType="model.Function" resultMap="FunctionMap">select m.* from w_function m where ${param1} order by ${param2} limit ${param3},${param4}</select>
+  <select id="selectSql" parameterType="String" resultType="ww.common.SqlMap">${value}</select>
+  <select id="getCount" parameterType="String" resultType="int">select count(*) from w_function m ${value}</select>
+  <insert id="insert" parameterType="model.Function" keyProperty="fid" useGeneratedKeys="true">insert into w_function(fnumber,fname,fparentId,flevel,fisGroup,findex,furl,ficon,fvisible) values(#{fnumber},#{fname},#{fparentId},#{flevel},#{fisGroup},#{findex},#{furl},#{ficon},#{fvisible})</insert>
+  <update id="update" parameterType="model.Function" keyProperty="fid" useGeneratedKeys="true">update w_function set fnumber=#{fnumber},fname=#{fname},fparentId=#{fparentId},flevel=#{flevel},fisGroup=#{fisGroup},findex=#{findex},furl=#{furl},ficon=#{ficon},fvisible=#{fvisible} where fid=#{fid}</update>
+  <delete id="delete" parameterType="java.lang.Integer">delete from w_function where fid=#{value}</delete>
+  <delete id="deleteWhere" parameterType="String">delete from w_function ${value}</delete>
+</mapper>

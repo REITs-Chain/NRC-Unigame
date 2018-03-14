@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ww.dao.TestUserInfoMapper">
+  <resultMap id="TestUserInfoMap" type="model.TestUserInfo">
+    <id property="userId" column="userId"/>
+    <result property="realName" column="realName"/>
+    <result property="idNum" column="idNum"/>
+    <result property="phoneNum" column="phoneNum"/>
+    <result property="status" column="status"/>
+    <result property="createTime" column="createTime"/>
+    <result property="note" column="note"/>
+  </resultMap>
+  <select id="getById" parameterType="java.lang.Integer" resultType="model.TestUserInfo" resultMap="TestUserInfoMap">select m.* from t_testuser m where m.userId=#{value}</select>
+  <select id="getByUserId" parameterType="java.lang.Integer" resultType="model.TestUserInfo" resultMap="TestUserInfoMap">select m.* from t_testuser m where m.userId=#{value}</select>
+  <select id="getByRealName" parameterType="java.lang.String" resultType="model.TestUserInfo" resultMap="TestUserInfoMap">select m.* from t_testuser m where m.realName=#{value}</select>
+  <select id="getByIdNum" parameterType="java.lang.String" resultType="model.TestUserInfo" resultMap="TestUserInfoMap">select m.* from t_testuser m where m.idNum=#{value}</select>
+  <select id="getByPhoneNum" parameterType="java.lang.String" resultType="model.TestUserInfo" resultMap="TestUserInfoMap">select m.* from t_testuser m where m.phoneNum=#{value}</select>
+  <select id="getByStatus" parameterType="java.lang.Integer" resultType="model.TestUserInfo" resultMap="TestUserInfoMap">select m.* from t_testuser m where m.status=#{value}</select>
+  <select id="getByCreateTime" parameterType="java.util.Date" resultType="model.TestUserInfo" resultMap="TestUserInfoMap">select m.* from t_testuser m where m.createTime=#{value}</select>
+  <select id="getByNote" parameterType="java.lang.String" resultType="model.TestUserInfo" resultMap="TestUserInfoMap">select m.* from t_testuser m where m.note=#{value}</select>
+  <select id="getAll" resultType="model.TestUserInfo" resultMap="TestUserInfoMap">select m.* from t_testuser m</select>
+  <select id="getList" parameterType="String" resultType="model.TestUserInfo" resultMap="TestUserInfoMap">select m.* from t_testuser m ${value}</select>
+  <select id="getList2" resultType="model.TestUserInfo" resultMap="TestUserInfoMap">select m.* from t_testuser m where ${param1} order by ${param2} limit ${param3},${param4}</select>
+  <select id="getList3" resultType="model.TestUserInfo" resultMap="TestUserInfoMap">select m.* from t_testuser m where ${param1} limit ${param2},${param3}</select>
+  <select id="getList4" resultType="model.TestUserInfo" resultMap="TestUserInfoMap">select m.* from t_testuser m order by ${param1} limit ${param2},${param3}</select>
+  <select id="selectSql" parameterType="String" resultType="ww.common.SqlMap">${value}</select>
+  <select id="getCount" parameterType="String" resultType="int">select count(*) from t_testuser m ${value}</select>
+  <insert id="insert" parameterType="model.TestUserInfo" keyProperty="userId">insert into t_testuser(userId,realName,idNum,phoneNum,status,createTime,note) values(#{userId},#{realName},#{idNum},#{phoneNum},#{status},#{createTime},#{note})</insert>
+  <update id="update" parameterType="model.TestUserInfo" keyProperty="userId">update t_testuser set realName=#{realName},idNum=#{idNum},phoneNum=#{phoneNum},status=#{status},createTime=#{createTime},note=#{note} where userId=#{userId}</update>
+  <delete id="delete" parameterType="java.lang.Integer">delete from t_testuser where userId=#{value}</delete>
+  <delete id="deleteWhere" parameterType="String">delete from t_testuser ${value}</delete>
+</mapper>

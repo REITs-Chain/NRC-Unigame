@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ww.dao.LinkerMapper">
+  <resultMap id="LinkerMap" type="model.Linker">
+    <id property="id" column="id"/>
+    <result property="userId" column="userId"/>
+    <result property="linkerName" column="linkerName"/>
+    <result property="linkerAddress" column="linkerAddress"/>
+  </resultMap>
+  <select id="getById" parameterType="java.lang.String" resultType="model.Linker" resultMap="LinkerMap">select m.* from t_linker m where m.id=#{value}</select>
+  <select id="getByUserId" parameterType="java.lang.Integer" resultType="model.Linker" resultMap="LinkerMap">select m.* from t_linker m where m.userId=#{value}</select>
+  <select id="getByLinkerName" parameterType="java.lang.String" resultType="model.Linker" resultMap="LinkerMap">select m.* from t_linker m where m.linkerName=#{value}</select>
+  <select id="getByLinkerAddress" parameterType="java.lang.String" resultType="model.Linker" resultMap="LinkerMap">select m.* from t_linker m where m.linkerAddress=#{value}</select>
+  <select id="getAll" resultType="model.Linker" resultMap="LinkerMap">select m.* from t_linker m</select>
+  <select id="getList" parameterType="String" resultType="model.Linker" resultMap="LinkerMap">select m.* from t_linker m ${value}</select>
+  <select id="getList2" resultType="model.Linker" resultMap="LinkerMap">select m.* from t_linker m where ${param1} order by ${param2} limit ${param3},${param4}</select>
+  <select id="selectSql" parameterType="String" resultType="ww.common.SqlMap">${value}</select>
+  <select id="getCount" parameterType="String" resultType="int">select count(*) from t_linker m ${value}</select>
+  <insert id="insert" parameterType="model.Linker" keyProperty="id">insert into t_linker(id,userId,linkerName,linkerAddress) values(#{id},#{userId},#{linkerName},#{linkerAddress})</insert>
+  <update id="update" parameterType="model.Linker" keyProperty="id">update t_linker set userId=#{userId},linkerName=#{linkerName},linkerAddress=#{linkerAddress} where id=#{id}</update>
+  <delete id="delete" parameterType="java.lang.String">delete from t_linker where id=#{value}</delete>
+  <delete id="deleteWhere" parameterType="String">delete from t_linker ${value}</delete>
+</mapper>

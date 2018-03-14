@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-config.dtd">
+ <configuration>
+    <typeAliases> 
+        <!-- <typeAlias alias="admin" type="model.Admin"/>  -->
+    </typeAliases>      
+    <mappers>
+         <!-- 手工引入mapper映射配置文件，注意：不能和spring-core.xml中自动扫描引入mapper映射配置文件同时使用！ -->
+         <!-- <mapper resource="model/AdminMapper.xml"/> -->
+     </mappers>
+ </configuration>
+

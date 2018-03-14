@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd"
+        >
+        
+    <!-- 添加注解方式；MVC存在controller的包。注意这里写的是包名，不是类名 -->    
+    <!-- 一旦有扫描器的定义mvc:annotation-driven可以不需要,扫描器已经有了注解驱动的功能 -->  
+    <context:component-scan base-package="ww.controller"/>	
+    <!-- mvc的注解驱动 --> 
+    <mvc:annotation-driven validator="validator" conversion-service="conversion-service"  >
+    	<!-- 使用fastjson解析json -->
+    	<mvc:message-converters register-defaults="true">
+            <bean id="fastJsonHttpMessageConverter" class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>text/html;charset=UTF-8</value>
+                        <value>application/json</value>
+                    </list>
+                </property>
+                <property name="features">
+                    <list>
+                        <value>WriteMapNullValue</value>
+                        <!--QuoteFieldNames输出key时是否使用双引号,默认为true -->
+                        <value>QuoteFieldNames</value>
+                        <value>WriteNullNumberAsZero</value>
+                        <value>WriteNullListAsEmpty</value>
+                        <value>WriteNullStringAsEmpty</value>
+                        <value>WriteNullBooleanAsFalse</value>
+                        <!-- 检测无限循环 -->
+                        <!-- <value>DisableCircularReferenceDetect</value> -->
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+	<!-- 添加注解方式MVC end -->
+	
+	<!-- 添加非注解（配置）方式支持  -->	
+	<!-- 映射处理器之间是独立的,相互不影响 -->		
+	<!-- 默认的映射处理器  -->
+	<bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>	
+	<!-- 控制器类名映射处理器 (注意:类名首字母消息.例如:http://localhost:8080/testSH/begin) -->
+	<bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>	
+	<!-- HandlerAdapter -->  
+	<bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"/>
+	
+	<!-- 定义三种解析策略 -->  
+    <bean id="internalPathMethodNameResolver" class="org.springframework.web.servlet.mvc.multiaction.InternalPathMethodNameResolver" />  
+    
+    <bean id="parameterMethodNameResolver" class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">  
+        <property name="paramName" value="a" />  
+    </bean>  	 
+	
+	<!-- 添加非注解（配置）方式支持  end-->	
+	
+	<!-- 视图解析器   跳转文件的前后缀 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- webroot到一指定文件夹文件路径 -->
+		<property name="prefix" value="/WEB-INF/view/"></property>
+		<!-- 视图名称后缀  -->
+		<property name="suffix" value=".jsp"></property>
+	</bean>	
+	
+	<!-- 文件上传解析器, id必须是multipartResolver-->  
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
+        <!-- 文件上传最大值,以 byte为单位  -->
+        <property name="maxUploadSize" value="52428800"></property>  
+    </bean>
+
+    <!-- spring数据验证支持 -->
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <property name="providerClass"  value="org.hibernate.validator.HibernateValidator"/>
+        <!--不设置则默认为classpath下的 ValidationMessages.properties -->
+        <property name="validationMessageSource" ref="validateMessageSource"/>
+    </bean>    
+    <bean id="validateMessageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">  
+        <!-- <property name="basename" value="classpath:validatemessages"/> -->
+        <property name="basenames">
+        	<list>
+        		<value>validatemessages</value>
+        	</list>
+        </property>
+        <property name="fileEncodings" value="utf-8"/>  
+        <property name="cacheSeconds" value="120"/>  
+    </bean>
+    <bean id="conversion-service" class="org.springframework.format.support.FormattingConversionServiceFactoryBean" />
+      
+    <!-- 指定一个拦截器 对用户的请求 异常 或者视图进行 一些处理-->    
+    <mvc:interceptors>  
+        <mvc:interceptor>  
+            <!--某一模块拦截: /myPath/** ,拦截所有的请求: /** -->
+            <mvc:mapping path="/**"/>
+            <bean class="ww.common.AppInterceptor">
+            </bean>  
+        </mvc:interceptor>      
+    </mvc:interceptors>
+	
+	<!-- 静态文件 -->
+	<mvc:resources location="/public/" mapping="/public/**"></mvc:resources>
+	
+	
+</beans>

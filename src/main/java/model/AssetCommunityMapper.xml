@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ww.dao.AssetCommunityMapper">
+  <resultMap id="AssetCommunityMap" type="model.AssetCommunity">
+    <id property="id" column="id"/>
+    <result property="name" column="name"/>
+    <result property="name_en" column="name_en"/>
+    <result property="icon" column="icon"/>
+    <result property="createTime" column="createTime"/>
+    <result property="assetId" column="assetId"/>
+  </resultMap>
+  <select id="getById" parameterType="java.lang.Integer" resultType="model.AssetCommunity" resultMap="AssetCommunityMap">select m.* from t_asset_community m where m.id=#{value}</select>
+  <select id="getByName" parameterType="java.lang.String" resultType="model.AssetCommunity" resultMap="AssetCommunityMap">select m.* from t_asset_community m where m.name=#{value}</select>
+  <select id="getByName_en" parameterType="java.lang.String" resultType="model.AssetCommunity" resultMap="AssetCommunityMap">select m.* from t_asset_community m where m.name_en=#{value}</select>
+  <select id="getByIcon" parameterType="java.lang.String" resultType="model.AssetCommunity" resultMap="AssetCommunityMap">select m.* from t_asset_community m where m.icon=#{value}</select>
+  <select id="getByCreateTime" parameterType="java.util.Date" resultType="model.AssetCommunity" resultMap="AssetCommunityMap">select m.* from t_asset_community m where m.createTime=#{value}</select>
+  <select id="getByAssetId" parameterType="java.lang.Integer" resultType="model.AssetCommunity" resultMap="AssetCommunityMap">select m.* from t_asset_community m where m.assetId=#{value}</select>
+  <select id="getAll" resultType="model.AssetCommunity" resultMap="AssetCommunityMap">select m.* from t_asset_community m</select>
+  <select id="getList" parameterType="String" resultType="model.AssetCommunity" resultMap="AssetCommunityMap">select m.* from t_asset_community m ${value}</select>
+  <select id="getList2" resultType="model.AssetCommunity" resultMap="AssetCommunityMap">select m.* from t_asset_community m where ${param1} order by ${param2} limit ${param3},${param4}</select>
+  <select id="getList3" resultType="model.AssetCommunity" resultMap="AssetCommunityMap">select m.* from t_asset_community m where ${param1} limit ${param2},${param3}</select>
+  <select id="getList4" resultType="model.AssetCommunity" resultMap="AssetCommunityMap">select m.* from t_asset_community m order by ${param1} limit ${param2},${param3}</select>
+  <select id="selectSql" parameterType="String" resultType="ww.common.SqlMap">${value}</select>
+  <select id="getCount" parameterType="String" resultType="int">select count(*) from t_asset_community m ${value}</select>
+  <insert id="insert" parameterType="model.AssetCommunity" keyProperty="id" useGeneratedKeys="true">insert into t_asset_community(name,name_en,icon,createTime,assetId) values(#{name},#{name_en},#{icon},#{createTime},#{assetId})</insert>
+  <update id="update" parameterType="model.AssetCommunity" keyProperty="id" useGeneratedKeys="true">update t_asset_community set name=#{name},name_en=#{name_en},icon=#{icon},createTime=#{createTime},assetId=#{assetId} where id=#{id}</update>
+  <delete id="delete" parameterType="java.lang.Integer">delete from t_asset_community where id=#{value}</delete>
+  <delete id="deleteWhere" parameterType="String">delete from t_asset_community ${value}</delete>
+</mapper>

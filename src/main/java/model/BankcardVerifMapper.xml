@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ww.dao.BankcardVerifMapper">
+  <resultMap id="BankcardVerifMap" type="model.BankcardVerif">
+    <id property="id" column="id"/>
+    <result property="userId" column="userId"/>
+    <result property="bankCardNum" column="bankCardNum"/>
+    <result property="bankName" column="bankName"/>
+    <result property="name" column="name"/>
+    <result property="idNumber" column="idNumber"/>
+    <result property="verifTime" column="verifTime"/>
+  </resultMap>
+  <select id="getById" parameterType="java.lang.Integer" resultType="model.BankcardVerif" resultMap="BankcardVerifMap">select m.* from t_bankcard_verif m where m.id=#{value}</select>
+  <select id="getByUserId" parameterType="java.lang.Integer" resultType="model.BankcardVerif" resultMap="BankcardVerifMap">select m.* from t_bankcard_verif m where m.userId=#{value}</select>
+  <select id="getByBankCardNum" parameterType="java.lang.String" resultType="model.BankcardVerif" resultMap="BankcardVerifMap">select m.* from t_bankcard_verif m where m.bankCardNum=#{value}</select>
+  <select id="getByBankName" parameterType="java.lang.String" resultType="model.BankcardVerif" resultMap="BankcardVerifMap">select m.* from t_bankcard_verif m where m.bankName=#{value}</select>
+  <select id="getByName" parameterType="java.lang.String" resultType="model.BankcardVerif" resultMap="BankcardVerifMap">select m.* from t_bankcard_verif m where m.name=#{value}</select>
+  <select id="getByIdNumber" parameterType="java.lang.String" resultType="model.BankcardVerif" resultMap="BankcardVerifMap">select m.* from t_bankcard_verif m where m.idNumber=#{value}</select>
+  <select id="getByVerifTime" parameterType="java.util.Date" resultType="model.BankcardVerif" resultMap="BankcardVerifMap">select m.* from t_bankcard_verif m where m.verifTime=#{value}</select>
+  <select id="getAll" resultType="model.BankcardVerif" resultMap="BankcardVerifMap">select m.* from t_bankcard_verif m</select>
+  <select id="getList" parameterType="String" resultType="model.BankcardVerif" resultMap="BankcardVerifMap">select m.* from t_bankcard_verif m ${value}</select>
+  <select id="getList2" resultType="model.BankcardVerif" resultMap="BankcardVerifMap">select m.* from t_bankcard_verif m where ${param1} order by ${param2} limit ${param3},${param4}</select>
+  <select id="selectSql" parameterType="String" resultType="ww.common.SqlMap">${value}</select>
+  <select id="getCount" parameterType="String" resultType="int">select count(*) from t_bankcard_verif m ${value}</select>
+  <insert id="insert" parameterType="model.BankcardVerif" keyProperty="id" useGeneratedKeys="true">insert into t_bankcard_verif(userId,bankCardNum,bankName,name,idNumber,verifTime) values(#{userId},#{bankCardNum},#{bankName},#{name},#{idNumber},#{verifTime})</insert>
+  <update id="update" parameterType="model.BankcardVerif" keyProperty="id" useGeneratedKeys="true">update t_bankcard_verif set userId=#{userId},bankCardNum=#{bankCardNum},bankName=#{bankName},name=#{name},idNumber=#{idNumber},verifTime=#{verifTime} where id=#{id}</update>
+  <delete id="delete" parameterType="java.lang.Integer">delete from t_bankcard_verif where id=#{value}</delete>
+  <delete id="deleteWhere" parameterType="String">delete from t_bankcard_verif ${value}</delete>
+</mapper>

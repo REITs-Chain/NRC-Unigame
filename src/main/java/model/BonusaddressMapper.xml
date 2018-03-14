@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ww.dao.BonusaddressMapper">
+  <resultMap id="BonusaddressMap" type="model.Bonusaddress">
+    <id property="id" column="id"/>
+    <result property="userId" column="userId"/>
+    <result property="type" column="type"/>
+    <result property="address" column="address"/>
+    <result property="source" column="source"/>
+  </resultMap>
+  <select id="getById" parameterType="java.lang.Integer" resultType="model.Bonusaddress" resultMap="BonusaddressMap">select m.* from t_bonusaddress m where m.id=#{value}</select>
+  <select id="getByUserId" parameterType="java.lang.Integer" resultType="model.Bonusaddress" resultMap="BonusaddressMap">select m.* from t_bonusaddress m where m.userId=#{value}</select>
+  <select id="getByType" parameterType="java.lang.String" resultType="model.Bonusaddress" resultMap="BonusaddressMap">select m.* from t_bonusaddress m where m.type=#{value}</select>
+  <select id="getByAddress" parameterType="java.lang.String" resultType="model.Bonusaddress" resultMap="BonusaddressMap">select m.* from t_bonusaddress m where m.address=#{value}</select>
+  <select id="getBySource" parameterType="java.lang.String" resultType="model.Bonusaddress" resultMap="BonusaddressMap">select m.* from t_bonusaddress m where m.source=#{value}</select>
+  <select id="getAll" resultType="model.Bonusaddress" resultMap="BonusaddressMap">select m.* from t_bonusaddress m</select>
+  <select id="getList" parameterType="String" resultType="model.Bonusaddress" resultMap="BonusaddressMap">select m.* from t_bonusaddress m ${value}</select>
+  <select id="getList2" resultType="model.Bonusaddress" resultMap="BonusaddressMap">select m.* from t_bonusaddress m where ${param1} order by ${param2} limit ${param3},${param4}</select>
+  <select id="selectSql" parameterType="String" resultType="ww.common.SqlMap">${value}</select>
+  <select id="getCount" parameterType="String" resultType="int">select count(*) from t_bonusaddress m ${value}</select>
+  <insert id="insert" parameterType="model.Bonusaddress" keyProperty="id" useGeneratedKeys="true">insert into t_bonusaddress(userId,type,address,source) values(#{userId},#{type},#{address},#{source})</insert>
+  <update id="update" parameterType="model.Bonusaddress" keyProperty="id" useGeneratedKeys="true">update t_bonusaddress set userId=#{userId},type=#{type},address=#{address},source=#{source} where id=#{id}</update>
+  <delete id="delete" parameterType="java.lang.Integer">delete from t_bonusaddress where id=#{value}</delete>
+  <delete id="deleteWhere" parameterType="String">delete from t_bonusaddress ${value}</delete>
+</mapper>

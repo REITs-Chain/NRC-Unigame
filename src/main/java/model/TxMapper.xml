@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ww.dao.TxMapper">
+  <resultMap id="TxMap" type="model.Tx">
+    <id property="id" column="id"/>
+    <result property="parentid" column="parentid"/>
+    <result property="txid" column="txid"/>
+    <result property="version" column="version"/>
+    <result property="locktime" column="locktime"/>
+    <result property="outvalue" column="outvalue"/>
+    <result property="blockhash" column="blockhash"/>
+    <result property="confirmations" column="confirmations"/>
+    <result property="time" column="time"/>
+    <result property="blocktime" column="blocktime"/>
+    <result property="year" column="year"/>
+    <result property="month" column="month"/>
+    <result property="day" column="day"/>
+  </resultMap>
+  <select id="getById" parameterType="java.lang.Long" resultType="model.Tx" resultMap="TxMap">select m.* from t_tx m where m.id=#{value}</select>
+  <select id="getByParentid" parameterType="java.lang.Long" resultType="model.Tx" resultMap="TxMap">select m.* from t_tx m where m.parentid=#{value}</select>
+  <select id="getByTxid" parameterType="java.lang.String" resultType="model.Tx" resultMap="TxMap">select m.* from t_tx m where m.txid=#{value}</select>
+  <select id="getByVersion" parameterType="java.lang.Long" resultType="model.Tx" resultMap="TxMap">select m.* from t_tx m where m.version=#{value}</select>
+  <select id="getByLocktime" parameterType="java.lang.Integer" resultType="model.Tx" resultMap="TxMap">select m.* from t_tx m where m.locktime=#{value}</select>
+  <select id="getByOutvalue" parameterType="java.lang.Double" resultType="model.Tx" resultMap="TxMap">select m.* from t_tx m where m.outvalue=#{value}</select>
+  <select id="getByBlockhash" parameterType="java.lang.String" resultType="model.Tx" resultMap="TxMap">select m.* from t_tx m where m.blockhash=#{value}</select>
+  <select id="getByConfirmations" parameterType="java.lang.Long" resultType="model.Tx" resultMap="TxMap">select m.* from t_tx m where m.confirmations=#{value}</select>
+  <select id="getByTime" parameterType="java.lang.Integer" resultType="model.Tx" resultMap="TxMap">select m.* from t_tx m where m.time=#{value}</select>
+  <select id="getByBlocktime" parameterType="java.lang.Integer" resultType="model.Tx" resultMap="TxMap">select m.* from t_tx m where m.blocktime=#{value}</select>
+  <select id="getByYear" parameterType="java.lang.Integer" resultType="model.Tx" resultMap="TxMap">select m.* from t_tx m where m.year=#{value}</select>
+  <select id="getByMonth" parameterType="java.lang.Integer" resultType="model.Tx" resultMap="TxMap">select m.* from t_tx m where m.month=#{value}</select>
+  <select id="getByDay" parameterType="java.lang.Integer" resultType="model.Tx" resultMap="TxMap">select m.* from t_tx m where m.day=#{value}</select>
+  <select id="getAll" resultType="model.Tx" resultMap="TxMap">select m.* from t_tx m</select>
+  <select id="getList" parameterType="String" resultType="model.Tx" resultMap="TxMap">select m.* from t_tx m ${value}</select>
+  <select id="getList2" resultType="model.Tx" resultMap="TxMap">select m.* from t_tx m where ${param1} order by ${param2} limit ${param3},${param4}</select>
+  <select id="selectSql" parameterType="String" resultType="ww.common.SqlMap">${value}</select>
+  <select id="getCount" parameterType="String" resultType="int">select count(*) from t_tx m ${value}</select>
+  <insert id="insert" parameterType="model.Tx" keyProperty="id" useGeneratedKeys="true">insert into t_tx(parentid,txid,version,locktime,outvalue,blockhash,confirmations,time,blocktime,year,month,day) values(#{parentid},#{txid},#{version},#{locktime},#{outvalue},#{blockhash},#{confirmations},#{time},#{blocktime},#{year},#{month},#{day})</insert>
+  <update id="update" parameterType="model.Tx" keyProperty="id" useGeneratedKeys="true">update t_tx set parentid=#{parentid},txid=#{txid},version=#{version},locktime=#{locktime},outvalue=#{outvalue},blockhash=#{blockhash},confirmations=#{confirmations},time=#{time},blocktime=#{blocktime},year=#{year},month=#{month},day=#{day} where id=#{id}</update>
+  <delete id="delete" parameterType="java.lang.Long">delete from t_tx where id=#{value}</delete>
+  <delete id="deleteWhere" parameterType="String">delete from t_tx ${value}</delete>
+</mapper>

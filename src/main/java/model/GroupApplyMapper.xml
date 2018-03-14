@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ww.dao.GroupApplyMapper">
+  <resultMap id="GroupApplyMap" type="model.GroupApply">
+    <id property="id" column="id"/>
+    <result property="status" column="status"/>
+    <result property="groupHeadId" column="groupHeadId"/>
+    <result property="applyUserId" column="applyUserId"/>
+    <result property="content" column="content"/>
+    <result property="groupId" column="groupId"/>
+    <result property="applyTime" column="applyTime"/>
+  </resultMap>
+  <select id="getById" parameterType="java.lang.Integer" resultType="model.GroupApply" resultMap="GroupApplyMap">select m.* from t_group_apply m where m.id=#{value}</select>
+  <select id="getByStatus" parameterType="java.lang.Integer" resultType="model.GroupApply" resultMap="GroupApplyMap">select m.* from t_group_apply m where m.status=#{value}</select>
+  <select id="getByGroupHeadId" parameterType="java.lang.Integer" resultType="model.GroupApply" resultMap="GroupApplyMap">select m.* from t_group_apply m where m.groupHeadId=#{value}</select>
+  <select id="getByApplyUserId" parameterType="java.lang.Integer" resultType="model.GroupApply" resultMap="GroupApplyMap">select m.* from t_group_apply m where m.applyUserId=#{value}</select>
+  <select id="getByContent" parameterType="java.lang.String" resultType="model.GroupApply" resultMap="GroupApplyMap">select m.* from t_group_apply m where m.content=#{value}</select>
+  <select id="getByGroupId" parameterType="java.lang.Integer" resultType="model.GroupApply" resultMap="GroupApplyMap">select m.* from t_group_apply m where m.groupId=#{value}</select>
+  <select id="getByApplyTime" parameterType="java.util.Date" resultType="model.GroupApply" resultMap="GroupApplyMap">select m.* from t_group_apply m where m.applyTime=#{value}</select>
+  <select id="getAll" resultType="model.GroupApply" resultMap="GroupApplyMap">select m.* from t_group_apply m</select>
+  <select id="getList" parameterType="String" resultType="model.GroupApply" resultMap="GroupApplyMap">select m.* from t_group_apply m ${value}</select>
+  <select id="getList2" resultType="model.GroupApply" resultMap="GroupApplyMap">select m.* from t_group_apply m where ${param1} order by ${param2} limit ${param3},${param4}</select>
+  <select id="getList3" resultType="model.GroupApply" resultMap="GroupApplyMap">select m.* from t_group_apply m where ${param1} limit ${param2},${param3}</select>
+  <select id="getList4" resultType="model.GroupApply" resultMap="GroupApplyMap">select m.* from t_group_apply m order by ${param1} limit ${param2},${param3}</select>
+  <select id="selectSql" parameterType="String" resultType="ww.common.SqlMap">${value}</select>
+  <select id="getCount" parameterType="String" resultType="int">select count(*) from t_group_apply m ${value}</select>
+  <insert id="insert" parameterType="model.GroupApply" keyProperty="id" useGeneratedKeys="true">insert into t_group_apply(status,groupHeadId,applyUserId,content,groupId,applyTime) values(#{status},#{groupHeadId},#{applyUserId},#{content},#{groupId},#{applyTime})</insert>
+  <update id="update" parameterType="model.GroupApply" keyProperty="id" useGeneratedKeys="true">update t_group_apply set status=#{status},groupHeadId=#{groupHeadId},applyUserId=#{applyUserId},content=#{content},groupId=#{groupId},applyTime=#{applyTime} where id=#{id}</update>
+  <delete id="delete" parameterType="java.lang.Integer">delete from t_group_apply where id=#{value}</delete>
+  <delete id="deleteWhere" parameterType="String">delete from t_group_apply ${value}</delete>
+</mapper>

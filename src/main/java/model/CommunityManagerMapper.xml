@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ww.dao.CommunityManagerMapper">
+  <resultMap id="CommunityManagerMap" type="model.CommunityManager">
+    <id property="id" column="id"/>
+    <result property="communityId" column="communityId"/>
+    <result property="userId" column="userId"/>
+    <result property="managerType" column="managerType"/>
+  </resultMap>
+  <select id="getById" parameterType="java.lang.Integer" resultType="model.CommunityManager" resultMap="CommunityManagerMap">select m.* from t_community_manager m where m.id=#{value}</select>
+  <select id="getByCommunityId" parameterType="java.lang.Integer" resultType="model.CommunityManager" resultMap="CommunityManagerMap">select m.* from t_community_manager m where m.communityId=#{value}</select>
+  <select id="getByUserId" parameterType="java.lang.Integer" resultType="model.CommunityManager" resultMap="CommunityManagerMap">select m.* from t_community_manager m where m.userId=#{value}</select>
+  <select id="getByManagerType" parameterType="java.lang.Integer" resultType="model.CommunityManager" resultMap="CommunityManagerMap">select m.* from t_community_manager m where m.managerType=#{value}</select>
+  <select id="getAll" resultType="model.CommunityManager" resultMap="CommunityManagerMap">select m.* from t_community_manager m</select>
+  <select id="getList" parameterType="String" resultType="model.CommunityManager" resultMap="CommunityManagerMap">select m.* from t_community_manager m ${value}</select>
+  <select id="getList2" resultType="model.CommunityManager" resultMap="CommunityManagerMap">select m.* from t_community_manager m where ${param1} order by ${param2} limit ${param3},${param4}</select>
+  <select id="getList3" resultType="model.CommunityManager" resultMap="CommunityManagerMap">select m.* from t_community_manager m where ${param1} limit ${param2},${param3}</select>
+  <select id="getList4" resultType="model.CommunityManager" resultMap="CommunityManagerMap">select m.* from t_community_manager m order by ${param1} limit ${param2},${param3}</select>
+  <select id="selectSql" parameterType="String" resultType="ww.common.SqlMap">${value}</select>
+  <select id="getCount" parameterType="String" resultType="int">select count(*) from t_community_manager m ${value}</select>
+  <insert id="insert" parameterType="model.CommunityManager" keyProperty="id" useGeneratedKeys="true">insert into t_community_manager(communityId,userId,managerType) values(#{communityId},#{userId},#{managerType})</insert>
+  <update id="update" parameterType="model.CommunityManager" keyProperty="id" useGeneratedKeys="true">update t_community_manager set communityId=#{communityId},userId=#{userId},managerType=#{managerType} where id=#{id}</update>
+  <delete id="delete" parameterType="java.lang.Integer">delete from t_community_manager where id=#{value}</delete>
+  <delete id="deleteWhere" parameterType="String">delete from t_community_manager ${value}</delete>
+</mapper>

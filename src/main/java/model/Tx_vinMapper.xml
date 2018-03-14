@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ww.dao.Tx_vinMapper">
+  <resultMap id="Tx_vinMap" type="model.Tx_vin">
+    <id property="id" column="id"/>
+    <result property="parentId" column="parentId"/>
+    <result property="txid" column="txid"/>
+    <result property="vout" column="vout"/>
+    <result property="sequence" column="sequence"/>
+    <result property="coinbase" column="coinbase"/>
+  </resultMap>
+  <select id="getById" parameterType="java.lang.Long" resultType="model.Tx_vin" resultMap="Tx_vinMap">select m.* from t_tx_vin m where m.id=#{value}</select>
+  <select id="getByParentId" parameterType="java.lang.Long" resultType="model.Tx_vin" resultMap="Tx_vinMap">select m.* from t_tx_vin m where m.parentId=#{value}</select>
+  <select id="getByTxid" parameterType="java.lang.String" resultType="model.Tx_vin" resultMap="Tx_vinMap">select m.* from t_tx_vin m where m.txid=#{value}</select>
+  <select id="getByVout" parameterType="java.lang.Double" resultType="model.Tx_vin" resultMap="Tx_vinMap">select m.* from t_tx_vin m where m.vout=#{value}</select>
+  <select id="getBySequence" parameterType="java.lang.Long" resultType="model.Tx_vin" resultMap="Tx_vinMap">select m.* from t_tx_vin m where m.sequence=#{value}</select>
+  <select id="getByCoinbase" parameterType="java.lang.String" resultType="model.Tx_vin" resultMap="Tx_vinMap">select m.* from t_tx_vin m where m.coinbase=#{value}</select>
+  <select id="getAll" resultType="model.Tx_vin" resultMap="Tx_vinMap">select m.* from t_tx_vin m</select>
+  <select id="getList" parameterType="String" resultType="model.Tx_vin" resultMap="Tx_vinMap">select m.* from t_tx_vin m ${value}</select>
+  <select id="getList2" resultType="model.Tx_vin" resultMap="Tx_vinMap">select m.* from t_tx_vin m where ${param1} order by ${param2} limit ${param3},${param4}</select>
+  <select id="selectSql" parameterType="String" resultType="ww.common.SqlMap">${value}</select>
+  <select id="getCount" parameterType="String" resultType="int">select count(*) from t_tx_vin m ${value}</select>
+  <insert id="insert" parameterType="model.Tx_vin" keyProperty="id" useGeneratedKeys="true">insert into t_tx_vin(parentId,txid,vout,sequence,coinbase) values(#{parentId},#{txid},#{vout},#{sequence},#{coinbase})</insert>
+  <update id="update" parameterType="model.Tx_vin" keyProperty="id" useGeneratedKeys="true">update t_tx_vin set parentId=#{parentId},txid=#{txid},vout=#{vout},sequence=#{sequence},coinbase=#{coinbase} where id=#{id}</update>
+  <delete id="delete" parameterType="java.lang.Long">delete from t_tx_vin where id=#{value}</delete>
+  <delete id="deleteWhere" parameterType="String">delete from t_tx_vin ${value}</delete>
+</mapper>

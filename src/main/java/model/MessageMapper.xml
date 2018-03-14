@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ww.dao.MessageMapper">
+  <resultMap id="MessageMap" type="model.Message">
+    <id property="id" column="id"/>
+    <result property="userId" column="userId"/>
+    <result property="title" column="title"/>
+    <result property="content" column="content"/>
+    <result property="createtime" column="createtime"/>
+    <result property="status" column="status"/>
+    <association property="user" column="userId" javaType="model.User" select="ww.dao.UserMapper.getById"/>
+  </resultMap>
+  <select id="getById" parameterType="java.lang.Integer" resultType="model.Message" resultMap="MessageMap">select m.* from t_message m where m.id=#{value}</select>
+  <select id="getByUserId" parameterType="java.lang.Integer" resultType="model.Message" resultMap="MessageMap">select m.* from t_message m where m.userId=#{value}</select>
+  <select id="getByTitle" parameterType="java.lang.String" resultType="model.Message" resultMap="MessageMap">select m.* from t_message m where m.title=#{value}</select>
+  <select id="getByContent" parameterType="java.lang.String" resultType="model.Message" resultMap="MessageMap">select m.* from t_message m where m.content=#{value}</select>
+  <select id="getByCreatetime" parameterType="java.util.Date" resultType="model.Message" resultMap="MessageMap">select m.* from t_message m where m.createtime=#{value}</select>
+  <select id="getByStatus" parameterType="java.lang.Integer" resultType="model.Message" resultMap="MessageMap">select m.* from t_message m where m.status=#{value}</select>
+  <select id="getAll" resultType="model.Message" resultMap="MessageMap">select m.* from t_message m</select>
+  <select id="getList" parameterType="String" resultType="model.Message" resultMap="MessageMap">select m.* from t_message m ${value}</select>
+  <select id="getList2" resultType="model.Message" resultMap="MessageMap">select m.* from t_message m where ${param1} order by ${param2} limit ${param3},${param4}</select>
+  <select id="selectSql" parameterType="String" resultType="ww.common.SqlMap">${value}</select>
+  <select id="getCount" parameterType="String" resultType="int">select count(*) from t_message m ${value}</select>
+  <insert id="insert" parameterType="model.Message" keyProperty="id" useGeneratedKeys="true">insert into t_message(userId,title,content,createtime,status) values(#{userId},#{title},#{content},#{createtime},#{status})</insert>
+  <update id="update" parameterType="model.Message" keyProperty="id" useGeneratedKeys="true">update t_message set userId=#{userId},title=#{title},content=#{content},createtime=#{createtime},status=#{status} where id=#{id}</update>
+  <delete id="delete" parameterType="java.lang.Integer">delete from t_message where id=#{value}</delete>
+  <delete id="deleteWhere" parameterType="String">delete from t_message ${value}</delete>
+</mapper>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ww.dao.Tx_vout_addressesMapper">
+  <resultMap id="Tx_vout_addressesMap" type="model.Tx_vout_addresses">
+    <id property="id" column="id"/>
+    <result property="parentid" column="parentid"/>
+    <result property="address" column="address"/>
+  </resultMap>
+  <select id="getById" parameterType="java.lang.Long" resultType="model.Tx_vout_addresses" resultMap="Tx_vout_addressesMap">select m.* from t_tx_vout_addresses m where m.id=#{value}</select>
+  <select id="getByParentid" parameterType="java.lang.Long" resultType="model.Tx_vout_addresses" resultMap="Tx_vout_addressesMap">select m.* from t_tx_vout_addresses m where m.parentid=#{value}</select>
+  <select id="getByAddress" parameterType="java.lang.String" resultType="model.Tx_vout_addresses" resultMap="Tx_vout_addressesMap">select m.* from t_tx_vout_addresses m where m.address=#{value}</select>
+  <select id="getAll" resultType="model.Tx_vout_addresses" resultMap="Tx_vout_addressesMap">select m.* from t_tx_vout_addresses m</select>
+  <select id="getList" parameterType="String" resultType="model.Tx_vout_addresses" resultMap="Tx_vout_addressesMap">select m.* from t_tx_vout_addresses m ${value}</select>
+  <select id="getList2" resultType="model.Tx_vout_addresses" resultMap="Tx_vout_addressesMap">select m.* from t_tx_vout_addresses m where ${param1} order by ${param2} limit ${param3},${param4}</select>
+  <select id="selectSql" parameterType="String" resultType="ww.common.SqlMap">${value}</select>
+  <select id="getCount" parameterType="String" resultType="int">select count(*) from t_tx_vout_addresses m ${value}</select>
+  <insert id="insert" parameterType="model.Tx_vout_addresses" keyProperty="id" useGeneratedKeys="true">insert into t_tx_vout_addresses(parentid,address) values(#{parentid},#{address})</insert>
+  <update id="update" parameterType="model.Tx_vout_addresses" keyProperty="id" useGeneratedKeys="true">update t_tx_vout_addresses set parentid=#{parentid},address=#{address} where id=#{id}</update>
+  <delete id="delete" parameterType="java.lang.Long">delete from t_tx_vout_addresses where id=#{value}</delete>
+  <delete id="deleteWhere" parameterType="String">delete from t_tx_vout_addresses ${value}</delete>
+</mapper>

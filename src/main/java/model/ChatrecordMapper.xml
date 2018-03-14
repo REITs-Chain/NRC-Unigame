@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ww.dao.ChatrecordMapper">
+  <resultMap id="ChatrecordMap" type="model.Chatrecord">
+    <id property="id" column="id"/>
+    <result property="sender" column="sender"/>
+    <result property="receiver" column="receiver"/>
+    <result property="sendcontent" column="sendcontent"/>
+    <result property="sendtime" column="sendtime"/>
+    <result property="remark" column="remark"/>
+    <result property="image" column="image"/>
+  </resultMap>
+  <select id="getById" parameterType="java.lang.Integer" resultType="model.Chatrecord" resultMap="ChatrecordMap">select m.* from t_chatrecord m where m.id=#{value}</select>
+  <select id="getBySender" parameterType="java.lang.String" resultType="model.Chatrecord" resultMap="ChatrecordMap">select m.* from t_chatrecord m where m.sender=#{value}</select>
+  <select id="getByReceiver" parameterType="java.lang.String" resultType="model.Chatrecord" resultMap="ChatrecordMap">select m.* from t_chatrecord m where m.receiver=#{value}</select>
+  <select id="getBySendcontent" parameterType="java.lang.String" resultType="model.Chatrecord" resultMap="ChatrecordMap">select m.* from t_chatrecord m where m.sendcontent=#{value}</select>
+  <select id="getBySendtime" parameterType="java.util.Date" resultType="model.Chatrecord" resultMap="ChatrecordMap">select m.* from t_chatrecord m where m.sendtime=#{value}</select>
+  <select id="getByRemark" parameterType="java.lang.String" resultType="model.Chatrecord" resultMap="ChatrecordMap">select m.* from t_chatrecord m where m.remark=#{value}</select>
+  <select id="getByImage" parameterType="java.lang.String" resultType="model.Chatrecord" resultMap="ChatrecordMap">select m.* from t_chatrecord m where m.image=#{value}</select>
+  <select id="getAll" resultType="model.Chatrecord" resultMap="ChatrecordMap">select m.* from t_chatrecord m</select>
+  <select id="getList" parameterType="String" resultType="model.Chatrecord" resultMap="ChatrecordMap">select m.* from t_chatrecord m ${value}</select>
+  <select id="getList2" resultType="model.Chatrecord" resultMap="ChatrecordMap">select m.* from t_chatrecord m where ${param1} order by ${param2} limit ${param3},${param4}</select>
+  <select id="selectSql" parameterType="String" resultType="ww.common.SqlMap">${value}</select>
+  <select id="getCount" parameterType="String" resultType="int">select count(*) from t_chatrecord m ${value}</select>
+  <insert id="insert" parameterType="model.Chatrecord" keyProperty="id" useGeneratedKeys="true">insert into t_chatrecord(sender,receiver,sendcontent,sendtime,remark,image) values(#{sender},#{receiver},#{sendcontent},#{sendtime},#{remark},#{image})</insert>
+  <update id="update" parameterType="model.Chatrecord" keyProperty="id" useGeneratedKeys="true">update t_chatrecord set sender=#{sender},receiver=#{receiver},sendcontent=#{sendcontent},sendtime=#{sendtime},remark=#{remark},image=#{image} where id=#{id}</update>
+  <delete id="delete" parameterType="java.lang.Integer">delete from t_chatrecord where id=#{value}</delete>
+  <delete id="deleteWhere" parameterType="String">delete from t_chatrecord ${value}</delete>
+</mapper>

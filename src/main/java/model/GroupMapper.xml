@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ww.dao.GroupMapper">
+  <resultMap id="GroupMap" type="model.Group">
+    <id property="id" column="id"/>
+    <result property="name" column="name"/>
+    <result property="name_en" column="name_en"/>
+    <result property="icon" column="icon"/>
+    <result property="groupQRcode" column="groupQRcode"/>
+    <result property="minStarLevel" column="minStarLevel"/>
+    <result property="status" column="status"/>
+    <result property="createTime" column="createTime"/>
+    <result property="createPerson" column="createPerson"/>
+    <result property="manager" column="manager"/>
+    <result property="managerNum" column="managerNum"/>
+    <result property="describe" column="describe"/>
+    <result property="communityId" column="communityId"/>
+    <result property="synchron" column="synchron"/>
+    <collection property="users" column="id" ofType="model.UserGroup" select="ww.dao.UserGroupMapper.getByGroupId"/>
+  </resultMap>
+  <select id="getById" parameterType="java.lang.Integer" resultType="model.Group" resultMap="GroupMap">select m.* from t_group m where m.id=#{value}</select>
+  <select id="getByName" parameterType="java.lang.String" resultType="model.Group" resultMap="GroupMap">select m.* from t_group m where m.name=#{value}</select>
+  <select id="getByName_en" parameterType="java.lang.String" resultType="model.Group" resultMap="GroupMap">select m.* from t_group m where m.name_en=#{value}</select>
+  <select id="getByIcon" parameterType="java.lang.String" resultType="model.Group" resultMap="GroupMap">select m.* from t_group m where m.icon=#{value}</select>
+  <select id="getByGroupQRcode" parameterType="java.lang.String" resultType="model.Group" resultMap="GroupMap">select m.* from t_group m where m.groupQRcode=#{value}</select>
+  <select id="getByMinStarLevel" parameterType="java.lang.Integer" resultType="model.Group" resultMap="GroupMap">select m.* from t_group m where m.minStarLevel=#{value}</select>
+  <select id="getByStatus" parameterType="java.lang.Integer" resultType="model.Group" resultMap="GroupMap">select m.* from t_group m where m.status=#{value}</select>
+  <select id="getByCreateTime" parameterType="java.util.Date" resultType="model.Group" resultMap="GroupMap">select m.* from t_group m where m.createTime=#{value}</select>
+  <select id="getByCreatePerson" parameterType="java.lang.String" resultType="model.Group" resultMap="GroupMap">select m.* from t_group m where m.createPerson=#{value}</select>
+  <select id="getByManager" parameterType="java.lang.String" resultType="model.Group" resultMap="GroupMap">select m.* from t_group m where m.manager=#{value}</select>
+  <select id="getByManagerNum" parameterType="java.lang.Integer" resultType="model.Group" resultMap="GroupMap">select m.* from t_group m where m.managerNum=#{value}</select>
+  <select id="getByDescribe" parameterType="java.lang.String" resultType="model.Group" resultMap="GroupMap">select m.* from t_group m where m.describe=#{value}</select>
+  <select id="getByCommunityId" parameterType="java.lang.Integer" resultType="model.Group" resultMap="GroupMap">select m.* from t_group m where m.communityId=#{value}</select>
+  <select id="getBySynchron" parameterType="java.lang.Integer" resultType="model.Group" resultMap="GroupMap">select m.* from t_group m where m.synchron=#{value}</select>
+  <select id="getAll" resultType="model.Group" resultMap="GroupMap">select m.* from t_group m</select>
+  <select id="getList" parameterType="String" resultType="model.Group" resultMap="GroupMap">select m.* from t_group m ${value}</select>
+  <select id="getList2" resultType="model.Group" resultMap="GroupMap">select m.* from t_group m where ${param1} order by ${param2} limit ${param3},${param4}</select>
+  <select id="getList3" resultType="model.Group" resultMap="GroupMap">select m.* from t_group m where ${param1} limit ${param2},${param3}</select>
+  <select id="getList4" resultType="model.Group" resultMap="GroupMap">select m.* from t_group m order by ${param1} limit ${param2},${param3}</select>
+  <select id="selectSql" parameterType="String" resultType="ww.common.SqlMap">${value}</select>
+  <select id="getCount" parameterType="String" resultType="int">select count(*) from t_group m ${value}</select>
+  <insert id="insert" parameterType="model.Group" keyProperty="id" useGeneratedKeys="true">insert into t_group(name,name_en,icon,groupQRcode,minStarLevel,status,createTime,createPerson,manager,managerNum,describe,communityId,synchron) values(#{name},#{name_en},#{icon},#{groupQRcode},#{minStarLevel},#{status},#{createTime},#{createPerson},#{manager},#{managerNum},#{describe},#{communityId},#{synchron})</insert>
+  <update id="update" parameterType="model.Group" keyProperty="id" useGeneratedKeys="true">update t_group set name=#{name},name_en=#{name_en},icon=#{icon},groupQRcode=#{groupQRcode},minStarLevel=#{minStarLevel},status=#{status},createTime=#{createTime},createPerson=#{createPerson},manager=#{manager},managerNum=#{managerNum},describe=#{describe},communityId=#{communityId},synchron=#{synchron} where id=#{id}</update>
+  <delete id="delete" parameterType="java.lang.Integer">delete from t_group where id=#{value}</delete>
+  <delete id="deleteWhere" parameterType="String">delete from t_group ${value}</delete>
+</mapper>

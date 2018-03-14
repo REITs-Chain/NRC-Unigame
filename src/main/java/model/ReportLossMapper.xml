@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ww.dao.ReportLossMapper">
+  <resultMap id="ReportLossMap" type="model.ReportLoss">
+    <id property="id" column="id"/>
+    <result property="userId" column="userId"/>
+    <result property="walletAddressOld" column="walletAddressOld"/>
+    <result property="walletAddressNew" column="walletAddressNew"/>
+    <result property="reportTime" column="reportTime"/>
+    <result property="status" column="status"/>
+    <result property="checkAdminId" column="checkAdminId"/>
+    <result property="checkTime" column="checkTime"/>
+    <result property="lossAdminId" column="lossAdminId"/>
+    <result property="toWalletAddress" column="toWalletAddress"/>
+    <result property="lossTime" column="lossTime"/>
+    <result property="lossError" column="lossError"/>
+    <result property="note" column="note"/>
+    <association property="user" column="userId" javaType="model.User" select="ww.dao.UserMapper.getById"/>
+  </resultMap>
+  <select id="getById" parameterType="java.lang.Integer" resultType="model.ReportLoss" resultMap="ReportLossMap">select m.* from t_reportloss m where m.id=#{value}</select>
+  <select id="getByUserId" parameterType="java.lang.Integer" resultType="model.ReportLoss" resultMap="ReportLossMap">select m.* from t_reportloss m where m.userId=#{value}</select>
+  <select id="getByWalletAddressOld" parameterType="java.lang.String" resultType="model.ReportLoss" resultMap="ReportLossMap">select m.* from t_reportloss m where m.walletAddressOld=#{value}</select>
+  <select id="getByWalletAddressNew" parameterType="java.lang.String" resultType="model.ReportLoss" resultMap="ReportLossMap">select m.* from t_reportloss m where m.walletAddressNew=#{value}</select>
+  <select id="getByReportTime" parameterType="java.util.Date" resultType="model.ReportLoss" resultMap="ReportLossMap">select m.* from t_reportloss m where m.reportTime=#{value}</select>
+  <select id="getByStatus" parameterType="java.lang.Integer" resultType="model.ReportLoss" resultMap="ReportLossMap">select m.* from t_reportloss m where m.status=#{value}</select>
+  <select id="getByCheckAdminId" parameterType="java.lang.Integer" resultType="model.ReportLoss" resultMap="ReportLossMap">select m.* from t_reportloss m where m.checkAdminId=#{value}</select>
+  <select id="getByCheckTime" parameterType="java.util.Date" resultType="model.ReportLoss" resultMap="ReportLossMap">select m.* from t_reportloss m where m.checkTime=#{value}</select>
+  <select id="getByLossAdminId" parameterType="java.lang.Integer" resultType="model.ReportLoss" resultMap="ReportLossMap">select m.* from t_reportloss m where m.lossAdminId=#{value}</select>
+  <select id="getByToWalletAddress" parameterType="java.lang.String" resultType="model.ReportLoss" resultMap="ReportLossMap">select m.* from t_reportloss m where m.toWalletAddress=#{value}</select>
+  <select id="getByLossTime" parameterType="java.util.Date" resultType="model.ReportLoss" resultMap="ReportLossMap">select m.* from t_reportloss m where m.lossTime=#{value}</select>
+  <select id="getByLossError" parameterType="java.lang.String" resultType="model.ReportLoss" resultMap="ReportLossMap">select m.* from t_reportloss m where m.lossError=#{value}</select>
+  <select id="getByNote" parameterType="java.lang.String" resultType="model.ReportLoss" resultMap="ReportLossMap">select m.* from t_reportloss m where m.note=#{value}</select>
+  <select id="getAll" resultType="model.ReportLoss" resultMap="ReportLossMap">select m.* from t_reportloss m</select>
+  <select id="getList" parameterType="String" resultType="model.ReportLoss" resultMap="ReportLossMap">select m.* from t_reportloss m ${value}</select>
+  <select id="getList2" resultType="model.ReportLoss" resultMap="ReportLossMap">select m.* from t_reportloss m where ${param1} order by ${param2} limit ${param3},${param4}</select>
+  <select id="selectSql" parameterType="String" resultType="ww.common.SqlMap">${value}</select>
+  <select id="getCount" parameterType="String" resultType="int">select count(*) from t_reportloss m ${value}</select>
+  <insert id="insert" parameterType="model.ReportLoss" keyProperty="id" useGeneratedKeys="true">insert into t_reportloss(userId,walletAddressOld,walletAddressNew,reportTime,status,checkAdminId,checkTime,lossAdminId,toWalletAddress,lossTime,lossError,note) values(#{userId},#{walletAddressOld},#{walletAddressNew},#{reportTime},#{status},#{checkAdminId},#{checkTime},#{lossAdminId},#{toWalletAddress},#{lossTime},#{lossError},#{note})</insert>
+  <update id="update" parameterType="model.ReportLoss" keyProperty="id" useGeneratedKeys="true">update t_reportloss set userId=#{userId},walletAddressOld=#{walletAddressOld},walletAddressNew=#{walletAddressNew},reportTime=#{reportTime},status=#{status},checkAdminId=#{checkAdminId},checkTime=#{checkTime},lossAdminId=#{lossAdminId},toWalletAddress=#{toWalletAddress},lossTime=#{lossTime},lossError=#{lossError},note=#{note} where id=#{id}</update>
+  <delete id="delete" parameterType="java.lang.Integer">delete from t_reportloss where id=#{value}</delete>
+  <delete id="deleteWhere" parameterType="String">delete from t_reportloss ${value}</delete>
+</mapper>

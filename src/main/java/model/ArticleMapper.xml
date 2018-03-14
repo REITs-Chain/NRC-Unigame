@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ww.dao.ArticleMapper">
+  <resultMap id="ArticleMap" type="model.Article">
+    <id property="id" column="id"/>
+    <result property="title" column="title"/>
+    <result property="content" column="content"/>
+    <result property="relaseTime" column="relaseTime"/>
+    <result property="publisher" column="publisher"/>
+    <result property="photo" column="photo"/>
+    <result property="brief" column="brief"/>
+  </resultMap>
+  <select id="getById" parameterType="java.lang.Integer" resultType="model.Article" resultMap="ArticleMap">select m.* from t_article m where m.id=#{value}</select>
+  <select id="getByTitle" parameterType="java.lang.String" resultType="model.Article" resultMap="ArticleMap">select m.* from t_article m where m.title=#{value}</select>
+  <select id="getByContent" parameterType="java.lang.String" resultType="model.Article" resultMap="ArticleMap">select m.* from t_article m where m.content=#{value}</select>
+  <select id="getByRelaseTime" parameterType="java.util.Date" resultType="model.Article" resultMap="ArticleMap">select m.* from t_article m where m.relaseTime=#{value}</select>
+  <select id="getByPublisher" parameterType="java.lang.Integer" resultType="model.Article" resultMap="ArticleMap">select m.* from t_article m where m.publisher=#{value}</select>
+  <select id="getByPhoto" parameterType="java.lang.String" resultType="model.Article" resultMap="ArticleMap">select m.* from t_article m where m.photo=#{value}</select>
+  <select id="getByBrief" parameterType="java.lang.String" resultType="model.Article" resultMap="ArticleMap">select m.* from t_article m where m.brief=#{value}</select>
+  <select id="getAll" resultType="model.Article" resultMap="ArticleMap">select m.* from t_article m</select>
+  <select id="getList" parameterType="String" resultType="model.Article" resultMap="ArticleMap">select m.* from t_article m ${value}</select>
+  <select id="getList2" resultType="model.Article" resultMap="ArticleMap">select m.* from t_article m where ${param1} order by ${param2} limit ${param3},${param4}</select>
+  <select id="selectSql" parameterType="String" resultType="ww.common.SqlMap">${value}</select>
+  <select id="getCount" parameterType="String" resultType="int">select count(*) from t_article m ${value}</select>
+  <insert id="insert" parameterType="model.Article" keyProperty="id" useGeneratedKeys="true">insert into t_article(title,content,relaseTime,publisher,photo,brief) values(#{title},#{content},#{relaseTime},#{publisher},#{photo},#{brief})</insert>
+  <update id="update" parameterType="model.Article" keyProperty="id" useGeneratedKeys="true">update t_article set title=#{title},content=#{content},relaseTime=#{relaseTime},publisher=#{publisher},photo=#{photo},brief=#{brief} where id=#{id}</update>
+  <delete id="delete" parameterType="java.lang.Integer">delete from t_article where id=#{value}</delete>
+  <delete id="deleteWhere" parameterType="String">delete from t_article ${value}</delete>
+</mapper>

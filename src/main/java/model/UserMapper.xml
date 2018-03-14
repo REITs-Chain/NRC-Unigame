@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ww.dao.UserMapper">
+  <resultMap id="UserMap" type="model.User">
+    <id property="id" column="id"/>
+    <result property="type" column="type"/>
+    <result property="areaNum" column="areaNum"/>
+    <result property="phoneNum" column="phoneNum"/>
+    <result property="email" column="email"/>
+    <result property="password" column="password"/>
+    <result property="password_his" column="password_his"/>
+    <result property="nickName" column="nickName"/>
+    <result property="regTime" column="regTime"/>
+    <result property="realName" column="realName"/>
+    <result property="gender" column="gender"/>
+    <result property="idType" column="idType"/>
+    <result property="idNum" column="idNum"/>
+    <result property="idPhoto1" column="idPhoto1"/>
+    <result property="idPhoto2" column="idPhoto2"/>
+    <result property="photo" column="photo"/>
+    <result property="avatar" column="avatar"/>
+    <result property="status" column="status"/>
+    <result property="certificationStatus" column="certificationStatus"/>
+    <result property="certificationTime" column="certificationTime"/>
+    <result property="loginLock" column="loginLock"/>
+    <result property="loginTimes" column="loginTimes"/>
+    <result property="walletLock" column="walletLock"/>
+    <result property="qq" column="qq"/>
+    <result property="weixin" column="weixin"/>
+    <result property="bankCardVerifStatus" column="bankCardVerifStatus"/>
+    <result property="inviteCode" column="inviteCode"/>
+    <result property="parentInviteCode" column="parentInviteCode"/>
+    <result property="walletAddress" column="walletAddress"/>
+    <result property="walletAddress_his" column="walletAddress_his"/>
+    <result property="aesKey" column="aesKey"/>
+    <result property="aesIv" column="aesIv"/>
+    <result property="defaultLanguage" column="defaultLanguage"/>
+    <result property="newUserReward" column="newUserReward"/>
+    <result property="walletBackup" column="walletBackup"/>
+    <result property="transPassword" column="transPassword"/>
+    <result property="rongCloudToken" column="rongCloudToken"/>
+    <collection property="messages" column="id" ofType="model.Message" select="ww.dao.MessageMapper.getByUserId"/>
+    <collection property="organInfos" column="id" ofType="model.OrganInfo" select="ww.dao.OrganInfoMapper.getByUserId"/>
+    <collection property="reportLosses" column="id" ofType="model.ReportLoss" select="ww.dao.ReportLossMapper.getByUserId"/>
+    <collection property="groups" column="id" ofType="model.UserGroup" select="ww.dao.UserGroupMapper.getByUserId"/>
+  </resultMap>
+  <select id="getById" parameterType="java.lang.Integer" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.id=#{value}</select>
+  <select id="getByType" parameterType="java.lang.Integer" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.type=#{value}</select>
+  <select id="getByAreaNum" parameterType="java.lang.String" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.areaNum=#{value}</select>
+  <select id="getByPhoneNum" parameterType="java.lang.String" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.phoneNum=#{value}</select>
+  <select id="getByEmail" parameterType="java.lang.String" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.email=#{value}</select>
+  <select id="getByPassword" parameterType="java.lang.String" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.password=#{value}</select>
+  <select id="getByPassword_his" parameterType="java.lang.String" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.password_his=#{value}</select>
+  <select id="getByNickName" parameterType="java.lang.String" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.nickName=#{value}</select>
+  <select id="getByRegTime" parameterType="java.util.Date" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.regTime=#{value}</select>
+  <select id="getByRealName" parameterType="java.lang.String" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.realName=#{value}</select>
+  <select id="getByGender" parameterType="java.lang.Integer" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.gender=#{value}</select>
+  <select id="getByIdType" parameterType="java.lang.String" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.idType=#{value}</select>
+  <select id="getByIdNum" parameterType="java.lang.String" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.idNum=#{value}</select>
+  <select id="getByIdPhoto1" parameterType="java.lang.String" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.idPhoto1=#{value}</select>
+  <select id="getByIdPhoto2" parameterType="java.lang.String" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.idPhoto2=#{value}</select>
+  <select id="getByPhoto" parameterType="java.lang.String" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.photo=#{value}</select>
+  <select id="getByAvatar" parameterType="java.lang.String" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.avatar=#{value}</select>
+  <select id="getByStatus" parameterType="java.lang.Integer" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.status=#{value}</select>
+  <select id="getByCertificationStatus" parameterType="java.lang.Integer" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.certificationStatus=#{value}</select>
+  <select id="getByCertificationTime" parameterType="java.util.Date" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.certificationTime=#{value}</select>
+  <select id="getByLoginLock" parameterType="java.lang.Boolean" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.loginLock=#{value}</select>
+  <select id="getByLoginTimes" parameterType="java.lang.Integer" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.loginTimes=#{value}</select>
+  <select id="getByWalletLock" parameterType="java.lang.Integer" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.walletLock=#{value}</select>
+  <select id="getByQq" parameterType="java.lang.String" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.qq=#{value}</select>
+  <select id="getByWeixin" parameterType="java.lang.String" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.weixin=#{value}</select>
+  <select id="getByBankCardVerifStatus" parameterType="java.lang.Integer" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.bankCardVerifStatus=#{value}</select>
+  <select id="getByInviteCode" parameterType="java.lang.String" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.inviteCode=#{value}</select>
+  <select id="getByParentInviteCode" parameterType="java.lang.String" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.parentInviteCode=#{value}</select>
+  <select id="getByWalletAddress" parameterType="java.lang.String" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.walletAddress=#{value}</select>
+  <select id="getByWalletAddress_his" parameterType="java.lang.String" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.walletAddress_his=#{value}</select>
+  <select id="getByAesKey" parameterType="java.lang.String" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.aesKey=#{value}</select>
+  <select id="getByAesIv" parameterType="java.lang.String" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.aesIv=#{value}</select>
+  <select id="getByDefaultLanguage" parameterType="java.lang.String" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.defaultLanguage=#{value}</select>
+  <select id="getByNewUserReward" parameterType="java.lang.Integer" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.newUserReward=#{value}</select>
+  <select id="getByWalletBackup" parameterType="java.lang.String" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.walletBackup=#{value}</select>
+  <select id="getByTransPassword" parameterType="java.lang.String" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.transPassword=#{value}</select>
+  <select id="getByRongCloudToken" parameterType="java.lang.String" resultType="model.User" resultMap="UserMap">select m.* from t_user m where m.rongCloudToken=#{value}</select>
+  <select id="getAll" resultType="model.User" resultMap="UserMap">select m.* from t_user m</select>
+  <select id="getList" parameterType="String" resultType="model.User" resultMap="UserMap">select m.* from t_user m ${value}</select>
+  <select id="getList2" resultType="model.User" resultMap="UserMap">select m.* from t_user m where ${param1} order by ${param2} limit ${param3},${param4}</select>
+  <select id="getList3" resultType="model.User" resultMap="UserMap">select m.* from t_user m where ${param1} limit ${param2},${param3}</select>
+  <select id="getList4" resultType="model.User" resultMap="UserMap">select m.* from t_user m order by ${param1} limit ${param2},${param3}</select>
+  <select id="selectSql" parameterType="String" resultType="ww.common.SqlMap">${value}</select>
+  <select id="getCount" parameterType="String" resultType="int">select count(*) from t_user m ${value}</select>
+  <insert id="insert" parameterType="model.User" keyProperty="id" useGeneratedKeys="true">insert into t_user(type,areaNum,phoneNum,email,password,password_his,nickName,regTime,realName,gender,idType,idNum,idPhoto1,idPhoto2,photo,avatar,status,certificationStatus,certificationTime,loginLock,loginTimes,walletLock,qq,weixin,bankCardVerifStatus,inviteCode,parentInviteCode,walletAddress,walletAddress_his,aesKey,aesIv,defaultLanguage,newUserReward,walletBackup,transPassword,rongCloudToken) values(#{type},#{areaNum},#{phoneNum},#{email},#{password},#{password_his},#{nickName},#{regTime},#{realName},#{gender},#{idType},#{idNum},#{idPhoto1},#{idPhoto2},#{photo},#{avatar},#{status},#{certificationStatus},#{certificationTime},#{loginLock},#{loginTimes},#{walletLock},#{qq},#{weixin},#{bankCardVerifStatus},#{inviteCode},#{parentInviteCode},#{walletAddress},#{walletAddress_his},#{aesKey},#{aesIv},#{defaultLanguage},#{newUserReward},#{walletBackup},#{transPassword},#{rongCloudToken})</insert>
+  <update id="update" parameterType="model.User" keyProperty="id" useGeneratedKeys="true">update t_user set type=#{type},areaNum=#{areaNum},phoneNum=#{phoneNum},email=#{email},password=#{password},password_his=#{password_his},nickName=#{nickName},regTime=#{regTime},realName=#{realName},gender=#{gender},idType=#{idType},idNum=#{idNum},idPhoto1=#{idPhoto1},idPhoto2=#{idPhoto2},photo=#{photo},avatar=#{avatar},status=#{status},certificationStatus=#{certificationStatus},certificationTime=#{certificationTime},loginLock=#{loginLock},loginTimes=#{loginTimes},walletLock=#{walletLock},qq=#{qq},weixin=#{weixin},bankCardVerifStatus=#{bankCardVerifStatus},inviteCode=#{inviteCode},parentInviteCode=#{parentInviteCode},walletAddress=#{walletAddress},walletAddress_his=#{walletAddress_his},aesKey=#{aesKey},aesIv=#{aesIv},defaultLanguage=#{defaultLanguage},newUserReward=#{newUserReward},walletBackup=#{walletBackup},transPassword=#{transPassword},rongCloudToken=#{rongCloudToken} where id=#{id}</update>
+  <delete id="delete" parameterType="java.lang.Integer">delete from t_user where id=#{value}</delete>
+  <delete id="deleteWhere" parameterType="String">delete from t_user ${value}</delete>
+</mapper>

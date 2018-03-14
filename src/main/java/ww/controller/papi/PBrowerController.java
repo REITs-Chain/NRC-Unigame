@@ -5,15 +5,20 @@ import java.util.function.UnaryOperator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import ww.common.DbModel;
+import ww.common.FileUploadUtil;
+import ww.common.FileUploadUtil.UploadResult;
 import ww.common.ModelDAO;
 import ww.common.SqlList;
 import ww.common.SqlMap;
+import ww.common.WwLog;
 import ww.common.WwSystem;
 import ww.controller.BaseController;
 
@@ -23,6 +28,133 @@ public class PBrowerController extends BaseController {
 	
 //	@Autowired
 //	private UserMapper userMapper;
+	
+	@ResponseBody
+	@RequestMapping("/appeal")
+	public JSONObject appeal(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		JSONObject result=new JSONObject();
+		
+		String realName=WwSystem.ToString(request.getParameter("realName")).trim();
+		String idNum=WwSystem.ToString(request.getParameter("idNum")).trim();
+		String phoneNum=WwSystem.ToString(request.getParameter("phoneNum")).trim();
+		if(realName==null||StringUtils.isEmpty(realName)){
+			result.put("success", false);
+			result.put("code", 2);
+			result.put("message", "姓名不能为空");
+			return result;
+		}
+		/*if(idNum==null||StringUtils.isEmpty(idNum)){
+			result.put("success", false);
+			result.put("code", 5);
+			result.put("message", "身份证不能为空");
+			return result;
+		}*/
+		if(phoneNum==null||StringUtils.isEmpty(phoneNum)){
+			result.put("success", false);
+			result.put("code",6);
+			result.put("message", "手机号不能为空");
+			return result;
+		}
+		UploadResult ures1= FileUploadUtil.updateOneImage(request, "/public/file_list/appeals/", "file1");
+		if(!ures1.success){
+			result.put("success", false);
+			result.put("code", 4);
+			result.put("message", "文件上传失败！");
+			WwLog.getLogger(this).error("文件上传失败:"+ures1.message);
+			return result;
+		}
+		UploadResult ures2= FileUploadUtil.updateOneImage(request, "/public/file_list/appeals/", "file2");
+		if(!ures1.success){
+			result.put("success", false);
+			result.put("code", 4);
+			result.put("message", "文件上传失败！");
+			WwLog.getLogger(this).error("文件上传失败:"+ures2.message);
+			return result;
+		}
+		UploadResult ures3= FileUploadUtil.updateOneImage(request, "/public/file_list/appeals/", "file3");
+		if(!ures1.success){
+			result.put("success", false);
+			result.put("code", 4);
+			result.put("message", "文件上传失败！");
+			WwLog.getLogger(this).error("文件上传失败:"+ures3.message);
+			return result;
+		}
+		DbModel dao=new DbModel();
+		SqlMap data=new SqlMap();
+		data.put("idPhoto1", ures1.newFileName);
+		data.put("idPhoto2", ures2.newFileName);
+		data.put("photo", ures3.newFileName);
+		data.put("realName", realName);
+		data.put("idNum", idNum);
+		data.put("phone", phoneNum);
+		data.put("time", WwSystem.now());
+		long insert = dao.table("t_reportloss_appeal").insert(data);
+		
+		if(insert<0){
+			result.put("success", false);
+			result.put("code", 3);
+			result.put("message", "保存信息失败");
+			return result;
+		}
+		result.put("success", true);
+		result.put("code", 0);
+		result.put("message", "成功");
+		return result;
+	}
+	@ResponseBody
+	@RequestMapping("/getReportLoss")
+	public JSONObject getReportLoss(Integer pageSize,Integer pageIndex,
+			HttpServletRequest request,HttpServletResponse response) throws Exception{  
+		JSONObject result=new JSONObject();	
+		JSONObject data=new JSONObject();
+		String query=WwSystem.ToString(request.getParameter("query")).trim();//搜索条件
+        query=ModelDAO.sqlParamString(query);
+		if(pageSize==null)
+			pageSize=20;
+		if(pageIndex==null)
+			pageIndex=0;
+		
+		DbModel  dao=new DbModel();
+		//INSERT(phoneNum,3,6,'*****')     REPLACE(idNum,LEFT(idNum,length(idNum)-6),'*************')
+		String sql="select count(1) as totalRows from t_reportloss r left join t_user u on r.userId=u.id where r.status=0 ";
+		String sql1=" select INSERT(u.phoneNum,3,6,'*****') phoneNum,u.realName,r.id, ";
+			   sql1+=" REPLACE(u.idNum,LEFT(u.idNum,length(u.idNum)-6),'*************') idNum ";
+			   //sql1+=" CASE  LENGTH(u.realName) WHEN 6 THEN  REPLACE(u.realName,LEFT(u.realName,1),'***') WHEN 9 THEN  REPLACE(u.realName,LEFT(u.realName,2),'***') ELSE REPLACE(u.realName,LEFT(u.realName,length(u.realName)-6),'***') END AS realName ";
+			   sql1+=" from t_reportloss r left join t_user u on r.userId=u.id ";
+ 	   		   sql1+=" where r.status=0 ";
+		if(!query.isEmpty()){
+        	query=query.replaceAll("'", ""); //防注入        	
+        	sql+=" and u.phoneNum='"+query+"' or u.realName='"+query+"'";
+        	sql1+=" and u.phoneNum='"+query+"' or u.realName='"+query+"'";
+        }
+		sql1+="  order by r.reportTime desc limit "+pageIndex+","+pageSize;
+        long[] pp = dao.countPagesDirect(sql, pageSize);
+        long totalRows=pp[0];//总行数
+        long pageCount=pp[1];//总页数	
+        //String sql1=" select * from t_reportloss order by reportTime desc limit "+pageIndex+","+pageSize;
+        
+        SqlList list = dao.sql(sql1).query();
+       
+        if(list.size()<=0){
+			result.put("success", false);
+			result.put("code", 1);
+			result.put("message", "没数据");
+			return result;
+		}
+		
+		data.put("pageCount", pageCount);
+		data.put("totalRows", totalRows);
+		//data.put("pageIndex", pageIndex);
+		//data.put("pageSize", pageSize);
+		data.put("list",list);
+		
+		result.put("success", true);
+		result.put("code", 0);		
+		result.put("data", data);
+		result.put("message", "成功");
+		
+		return result;
+	}
 	
 	//搜索
 	@ResponseBody
